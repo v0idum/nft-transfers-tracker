@@ -174,6 +174,8 @@ async def _form_message(transfer: dict, wallet, session: ClientSession):
 @logger.catch
 async def new_tx_alert(transfers: list, wallet, session: ClientSession):
     for transfer in transfers:
+        if transfer["tokenID"] == '0':
+            continue
         notification = await _form_message(transfer, wallet, session)
         await bot.send_message(wallet[2], notification)
         logger.info('New Transfer Alert!')
