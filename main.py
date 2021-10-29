@@ -161,6 +161,8 @@ async def _form_message(transfer: dict, wallet, session: ClientSession):
     header = 'New Mint!' if transfer["from"] == ZERO_ADDRESS else 'New Transfer!'
     nft = f'{transfer["tokenName"]} #{transfer["tokenID"]}'
     fees = await _get_tx_fees(transfer['hash'], session)
+    logger.info(f'Tx hash: {transfer["hash"]}')
+    logger.info(f'Fees: {fees}')
     message = text(f'Wallet tracked: {hlink(wallet[3], EXPLORER_ADDRESS_URL % wallet[0])}',
                    hlink(header, EXPLORER_TX_URL % transfer['hash']),
                    f'From➡: {hlink(transfer["from"], EXPLORER_ADDRESS_URL % transfer["from"])}',
