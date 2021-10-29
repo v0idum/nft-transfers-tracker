@@ -139,10 +139,13 @@ async def get_last_block(session: ClientSession):
         return int(result['result'], base=16)
 
 
-@logger.catch
 async def get_nft_transfers(address: str, start_block: int, session: ClientSession):
     async with session.get(NFT_TXS_URL % (address, start_block, ETHERSCAN_API_KEY)) as res:
-        return await res.json()
+        try:
+            return await res.json()
+        except Exception as e:
+            logger.error(f'Error in get_nft_transfers: {e}')
+            logger.error(await res.text())
 
 
 @logger.catch
